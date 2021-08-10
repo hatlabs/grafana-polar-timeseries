@@ -12,7 +12,13 @@
   },
   "author": "Matti Airas",
   "license": "Apache-2.0",
+  "dependencies": {
+    "react-plotly.js": "latest",
+    "plotly.js": "latest"
+  },
   "devDependencies": {
+    "@types/plotly.js": "latest",
+    "@types/react-plotly.js": "latest",
     "@grafana/data": "latest",
     "@grafana/toolkit": "latest",
     "@grafana/ui": "latest",
