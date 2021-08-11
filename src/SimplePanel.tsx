@@ -10,18 +10,18 @@ interface Props extends PanelProps<SimpleOptions> { }
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   //const theme = useTheme();
   //const styles = getStyles();
-  //let ser_ind: number = 0;
-
-  const plotData: Plotly.Data[] = [
-    {
-      r: [1, 2, 3, 4, 5],
-      theta: [0, 10, 25, 60, 120],
+  
+  const plotData: Plotly.Data[] = data.series.map(item => {
+    const timeVals: Plotly.Datum[] = item.fields[0].values.toArray();
+    const thetaVals: Plotly.Datum[] = item.fields[1].values.toArray();
+    const data: Plotly.Data = {
+      r: timeVals,
+      theta: thetaVals,
       type: 'scatterpolar',
-      mode: 'lines+markers',
-      marker: { color: 'green' },
-      
-    }
-  ];
+      mode: 'markers',
+    };
+    return data;
+  });
 
   const plotLayout: Partial<Plotly.Layout> = {
     width: width,
@@ -29,12 +29,15 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
     margin: { l: 30, r: 30, b: 30, t: 30 },
     polar: {
       angularaxis: {
-        direction: "clockwise"
+        direction: "clockwise",
+        dtick: 15,
       },
       radialaxis: {
-        range: [0, 10],
-      },  
+        angle: 90,
+        tickangle: 90,
+      },
     },
+    paper_bgcolor: "black",
   };
 
   const plotConfig: Partial<Plotly.Config> = {
