@@ -3,28 +3,49 @@ import { PanelProps } from '@grafana/data';
 import { SimpleOptions } from 'types';
 //import { css, cx } from 'emotion';
 //import { stylesFactory, useTheme } from '@grafana/ui';
-//import PlotData from 'plotly.js';
 import Plot from 'react-plotly.js';
 
-interface Props extends PanelProps<SimpleOptions> {}
+interface Props extends PanelProps<SimpleOptions> { }
 
 export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   //const theme = useTheme();
   //const styles = getStyles();
   //let ser_ind: number = 0;
 
+  const plotData: Plotly.Data[] = [
+    {
+      r: [1, 2, 3, 4, 5],
+      theta: [0, 10, 25, 60, 120],
+      type: 'scatterpolar',
+      mode: 'lines+markers',
+      marker: { color: 'green' },
+      
+    }
+  ];
+
+  const plotLayout: Partial<Plotly.Layout> = {
+    width: width,
+    height: height,
+    margin: { l: 30, r: 30, b: 30, t: 30 },
+    polar: {
+      angularaxis: {
+        direction: "clockwise"
+      },
+      radialaxis: {
+        range: [0, 10],
+      },  
+    },
+  };
+
+  const plotConfig: Partial<Plotly.Config> = {
+    displayModeBar: false
+  };
+
   return (
     <Plot
-      data={[
-        {
-          r: [1, 2, 3, 4, 5],
-          theta: [0.1, 0.2, 0.35, 0.6, 0.8],
-          type: 'scatterpolar',
-          mode: 'lines+markers',
-          marker: { color: 'red' },
-        },
-      ]}
-      layout={{ width: width, height: height }}
+      data={plotData}
+      layout={plotLayout}
+      config={plotConfig}
     />
     // <div
     //   className={cx(
