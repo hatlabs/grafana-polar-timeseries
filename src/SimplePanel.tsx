@@ -7,9 +7,9 @@ import Plot from 'react-plotly.js';
 
 interface Props extends PanelProps<SimpleOptions> { }
 
-export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) => {
   //const theme = useTheme();
   //const styles = getStyles();
+export const SimplePanel: React.FC<Props> = ({ options, data, width, height, timeRange }) => {
   
   const plotData: Plotly.Data[] = data.series.map(item => {
     const timeVals: Plotly.Datum[] = item.fields[0].values.toArray();
@@ -18,7 +18,7 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       r: timeVals,
       theta: thetaVals,
       type: 'scatterpolar',
-      mode: 'markers',
+      mode: 'lines+markers',
     };
     return data;
   });
@@ -35,6 +35,9 @@ export const SimplePanel: React.FC<Props> = ({ options, data, width, height }) =
       radialaxis: {
         angle: 90,
         tickangle: 90,
+        autorange: 'reversed',
+        rangemode: 'nonnegative',
+        range: [timeRange.from, timeRange.to],
       },
     },
     paper_bgcolor: "black",
